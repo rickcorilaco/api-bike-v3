@@ -1,0 +1,131 @@
+{
+	"info": {
+		"_postman_id": "d55c5bf0-f023-4587-8662-2c927eebb6d8",
+		"name": "api-bike-v3",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "bikes",
+			"item": [
+				{
+					"name": "List",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/bikes",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"bikes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/bikes/:bikes_id",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"bikes",
+								":bikes_id"
+							],
+							"variable": [
+								{
+									"key": "bikes_id",
+									"value": "1e3335b9-359b-47ac-aa26-e34b51a83a2e"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"brand\": \"Absolute\",\n    \"model\": \"Mia\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/bikes",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"bikes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/bikes/:bikes_id",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"bikes",
+								":bikes_id"
+							],
+							"variable": [
+								{
+									"key": "bikes_id",
+									"value": "a2b2a5a5-57cd-4cf8-a1be-544f9c25d61c"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "host",
+			"value": "http://localhost:9000"
+		}
+	]
+}

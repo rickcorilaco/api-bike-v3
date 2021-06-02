@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+  postgres:
+    image: postgres_db
+    environment:
+      POSTGRES_DB: "api_bike"
+      POSTGRES_USER: "api_bike"
+      POSTGRES_PASSWORD: "api_bike"
+      PGDATA: "/tempDB"
+    ports:
+      - "5432:5432"
