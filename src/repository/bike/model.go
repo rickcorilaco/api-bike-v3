@@ -17,8 +17,12 @@ func (ref *Bike) FromDomain(dom entity.Bike) {
 	ref.Model = dom.Model
 }
 
-func (ref *Bike) ToDomain() (dom entity.Bike) {
-	dom = entity.Bike{
+func (ref *Bike) ToDomain() (dom *entity.Bike) {
+	if ref == nil {
+		return
+	}
+
+	dom = &entity.Bike{
 		ID:    ref.ID,
 		Brand: ref.Brand,
 		Model: ref.Model,
@@ -43,7 +47,7 @@ func (ref *Bikes) ToDomain() (dom []entity.Bike) {
 	dom = []entity.Bike{}
 
 	for _, refBike := range *ref {
-		dom = append(dom, refBike.ToDomain())
+		dom = append(dom, *refBike.ToDomain())
 	}
 
 	return

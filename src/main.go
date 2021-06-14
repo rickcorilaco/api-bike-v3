@@ -30,14 +30,14 @@ func main() {
 		Name:     dbName,
 	}
 
-	db, err := repository.Start(repositoryConfig)
+	repositories, err := repository.Start(repositoryConfig)
 	if err != nil {
 		panic(err)
 	}
 
-	// service(s)
+	// service
 	serviceConfig := service.Config{
-		DB: db,
+		Repositories: repositories,
 	}
 
 	services, err := service.Start(serviceConfig)

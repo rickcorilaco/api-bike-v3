@@ -7,6 +7,7 @@ import (
 	"gorm.io/gorm"
 
 	"github.com/rickcorilaco/api-bike-v3/src/core/entity"
+	bikeRepository "github.com/rickcorilaco/api-bike-v3/src/repository/bike"
 )
 
 type Config struct {
@@ -17,7 +18,7 @@ type Config struct {
 	Name     string
 }
 
-func Start(config Config) (db interface{}, err error) {
+func Start(config Config) (repositories []interface{}, err error) {
 	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable", config.Host, config.User, config.Password, config.Name, config.Port)
 
 	gormDB, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
@@ -30,6 +31,13 @@ func Start(config Config) (db interface{}, err error) {
 		return
 	}
 
-	db = gormDB
+	db := gormDB
+
+	bikeRepository, err := bikeRepository.New(db)
+	if err != nil {
+		return
+	}
+
+	repositories = append(repositories, bikeRepository)
 	return
 }

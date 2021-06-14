@@ -50,8 +50,12 @@ func (ref *BikeAPI) Get(c echo.Context) (err error) {
 		return
 	}
 
+	if result == nil {
+		return c.NoContent(http.StatusNotFound)
+	}
+
 	response := Bike{}
-	response.FromDomain(result)
+	response.FromDomain(*result)
 	return c.JSON(http.StatusOK, response)
 }
 
@@ -71,7 +75,7 @@ func (ref *BikeAPI) Create(c echo.Context) (err error) {
 		return
 	}
 
-	payload.FromDomain(result)
+	payload.FromDomain(*result)
 
 	return c.JSON(http.StatusCreated, payload)
 }

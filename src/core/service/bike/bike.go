@@ -25,7 +25,7 @@ func (ref *BikeService) List() (result []entity.Bike, err error) {
 	return
 }
 
-func (ref *BikeService) Get(bikeID uuid.UUID) (result entity.Bike, err error) {
+func (ref *BikeService) Get(bikeID uuid.UUID) (result *entity.Bike, err error) {
 	repositoryResult, err := ref.repository.Get(bikeID)
 	if err != nil {
 		return
@@ -35,7 +35,7 @@ func (ref *BikeService) Get(bikeID uuid.UUID) (result entity.Bike, err error) {
 	return
 }
 
-func (ref *BikeService) Create(bike entity.Bike) (result entity.Bike, err error) {
+func (ref *BikeService) Create(bike entity.Bike) (result *entity.Bike, err error) {
 	repoBike := bikeRepository.Bike{}
 	repoBike.FromDomain(bike)
 
