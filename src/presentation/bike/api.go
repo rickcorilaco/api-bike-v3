@@ -66,9 +66,9 @@ func (ref *BikeAPI) Create(c echo.Context) (err error) {
 		return
 	}
 
-	// if err = c.Validate(payload); err != nil {
-	// 	return
-	// }
+	if err = c.Validate(payload); err != nil {
+		return c.JSON(400, echo.Map{"error": err.Error()})
+	}
 
 	result, err := ref.bikeService.Create(payload.ToDomain())
 	if err != nil {

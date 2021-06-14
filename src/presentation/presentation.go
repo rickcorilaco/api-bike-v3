@@ -3,6 +3,7 @@ package presentation
 import (
 	"fmt"
 
+	"github.com/go-playground/validator/v10"
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
 
@@ -15,10 +16,19 @@ type Config struct {
 	Services []interface{}
 }
 
+type CustomValidator struct {
+	validator *validator.Validate
+}
+
+func (cv *CustomValidator) Validate(i interface{}) error {
+	return cv.validator.Struct(i)
+}
+
 func Start(config Config) (err error) {
 	e := echo.New()
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
+	e.Validator = &CustomValidator{validator: validator.New()}
 
 	for _, service := range config.Services {
 		switch value := service.(type) {
@@ -30,6 +40,7 @@ func Start(config Config) (err error) {
 			}
 		default:
 			err = fmt.Errorf("invalid service: %v", service)
+			break
 		}
 	}
 

@@ -7,8 +7,8 @@ import (
 
 type Bike struct {
 	ID    uuid.UUID `json:"id"`
-	Brand string    `json:"brand"`
-	Model string    `json:"model"`
+	Brand string    `json:"brand" validate:"required"`
+	Model string    `json:"model" validate:"required"`
 }
 
 func (ref *Bike) FromDomain(dom entity.Bike) {
