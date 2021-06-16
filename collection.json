@@ -9,7 +9,7 @@
 			"name": "bikes",
 			"item": [
 				{
-					"name": "List",
+					"name": "bikes",
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -26,23 +26,23 @@
 					"response": []
 				},
 				{
-					"name": "Get",
+					"name": "bikes/:bike_id",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{host}}/bikes/:bikes_id",
+							"raw": "{{host}}/bikes/:bike_id",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"bikes",
-								":bikes_id"
+								":bike_id"
 							],
 							"variable": [
 								{
-									"key": "bikes_id",
-									"value": "1e3335b9-359b-47ac-aa26-e34b51a83a2e"
+									"key": "bike_id",
+									"value": ""
 								}
 							]
 						}
@@ -50,13 +50,13 @@
 					"response": []
 				},
 				{
-					"name": "Create",
+					"name": "bikes",
 					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"brand\": \"Absolute\",\n    \"model\": \"Mia\"\n}",
+							"raw": "{\n    \"brand\": \"Caloi\",\n    \"model\": \"10\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -76,23 +76,119 @@
 					"response": []
 				},
 				{
-					"name": "Delete",
+					"name": "bikes/:bike_id",
 					"request": {
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{host}}/bikes/:bikes_id",
+							"raw": "{{host}}/bikes/:bike_id",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"bikes",
-								":bikes_id"
+								":bike_id"
 							],
 							"variable": [
 								{
-									"key": "bikes_id",
-									"value": "a2b2a5a5-57cd-4cf8-a1be-544f9c25d61c"
+									"key": "bike_id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "rides",
+			"item": [
+				{
+					"name": "rides",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/rides",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"rides"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "rides/:ride_id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/rides/:ride_id",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"rides",
+								":ride_id"
+							],
+							"variable": [
+								{
+									"key": "ride_id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "rides",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"distance\": 28.33,\n    \"duration\": \"57m48s\",\n    \"date\": \"2021-06-14T07:01:05-04:00\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/rides",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"rides"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "rides/:ride_id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/rides/:ride_id",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"rides",
+								":ride_id"
+							],
+							"variable": [
+								{
+									"key": "ride_id",
+									"value": ""
 								}
 							]
 						}

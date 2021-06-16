@@ -1,19 +1,18 @@
 package presentation
 
 import (
-	"fmt"
-
 	"github.com/go-playground/validator/v10"
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
 
-	bikeService "github.com/rickcorilaco/api-bike-v3/src/core/service/bike"
+	"github.com/rickcorilaco/api-bike-v3/src/core/service"
 	bikePresentation "github.com/rickcorilaco/api-bike-v3/src/presentation/bike"
+	ridePresentation "github.com/rickcorilaco/api-bike-v3/src/presentation/ride"
 )
 
 type Config struct {
 	ApiPort  string
-	Services []interface{}
+	Services service.Services
 }
 
 type CustomValidator struct {
@@ -30,18 +29,20 @@ func Start(config Config) (err error) {
 	e.Use(middleware.Recover())
 	e.Validator = &CustomValidator{validator: validator.New()}
 
-	for _, service := range config.Services {
-		switch value := service.(type) {
-		case *bikeService.BikeService:
-			_, err = bikePresentation.NewAPI(e, value)
-			if err != nil {
-				return
-
-			}
-		default:
-			err = fmt.Errorf("invalid service: %v", service)
-			break
+	if config.Services.Bike != nil {
+		if _, err = bikePresentation.NewAPI(e, config.Services.Bike); err != nil {
+			return
 		}
+
+		e.Logger.Print("Bike API started!")
+	}
+
+	if config.Services.Ride != nil {
+		if _, err = ridePresentation.NewAPI(e, config.Services.Ride); err != nil {
+			return
+		}
+
+		e.Logger.Print("Ride API started!")
 	}
 
 	go func() {
