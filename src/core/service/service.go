@@ -1,6 +1,8 @@
 package service
 
 import (
+	"errors"
+
 	bikeService "github.com/rickcorilaco/api-bike-v3/src/core/service/bike"
 	rideService "github.com/rickcorilaco/api-bike-v3/src/core/service/ride"
 	"github.com/rickcorilaco/api-bike-v3/src/repository"
@@ -16,15 +18,26 @@ type Services struct {
 }
 
 func Start(config Config) (services Services, err error) {
-	if config.Repositories.Bike == nil {
+	if err = validateConfig(config); err != nil {
 		return
 	}
 
-	services.Bike, err = bikeService.New(config.Repositories.Bike)
-	if err != nil {
+	if services.Bike, err = bikeService.New(config.Repositories.Bike); err != nil {
 		return
 	}
 
 	services.Ride, err = rideService.New(config.Repositories.Ride)
+	return
+}
+
+func validateConfig(config Config) (err error) {
+	if config.Repositories.Bike == nil {
+		return errors.New("bike repository is nil")
+	}
+
+	if config.Repositories.Ride == nil {
+		return errors.New("ride repository is nil")
+	}
+
 	return
 }
