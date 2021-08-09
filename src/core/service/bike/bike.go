@@ -3,6 +3,7 @@ package bike
 import (
 	"github.com/google/uuid"
 	"github.com/rickcorilaco/api-bike-v3/src/core/entity"
+	"github.com/rickcorilaco/api-bike-v3/src/core/values"
 	bikeRepository "github.com/rickcorilaco/api-bike-v3/src/repository/bike"
 )
 
@@ -15,43 +16,18 @@ func New(repository bikeRepository.Repository) (bikeService *BikeService, err er
 	return
 }
 
-func (ref *BikeService) List() (result []entity.Bike, err error) {
-	repositoryResult, err := ref.repository.List()
-	if err != nil {
-		return
-	}
-
-	result = repositoryResult.ToDomain()
-	return
+func (ref *BikeService) List(filter values.BikeListFilter) (result []entity.Bike, err error) {
+	return ref.repository.List(filter)
 }
 
 func (ref *BikeService) Get(bikeID uuid.UUID) (result *entity.Bike, err error) {
-	repositoryResult, err := ref.repository.Get(bikeID)
-	if err != nil {
-		return
-	}
-
-	result = repositoryResult.ToDomain()
-	return
+	return ref.repository.Get(bikeID)
 }
 
 func (ref *BikeService) Create(bike entity.Bike) (result *entity.Bike, err error) {
-	repoBike := bikeRepository.Bike{}
-	repoBike.FromDomain(bike)
-
-	repositoryResult, err := ref.repository.Create(repoBike)
-	if err != nil {
-		return
-	}
-
-	result = repositoryResult.ToDomain()
-	return
+	return ref.repository.Create(bike)
 }
 
 func (ref *BikeService) Delete(bike entity.Bike) (err error) {
-	repoBike := bikeRepository.Bike{}
-	repoBike.FromDomain(bike)
-
-	err = ref.repository.Delete(repoBike)
-	return
+	return ref.repository.Delete(bike)
 }

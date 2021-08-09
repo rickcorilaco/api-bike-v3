@@ -6,6 +6,7 @@ import (
 	"github.com/google/uuid"
 	"github.com/labstack/echo"
 	bikeService "github.com/rickcorilaco/api-bike-v3/src/core/service/bike"
+	"github.com/rickcorilaco/api-bike-v3/src/core/values"
 )
 
 type BikeAPI struct {
@@ -29,7 +30,13 @@ func NewAPI(e *echo.Echo, bikeService *bikeService.BikeService) (bikePresentatio
 }
 
 func (ref *BikeAPI) List(c echo.Context) (err error) {
-	result, err := ref.bikeService.List()
+	filter := values.BikeListFilter{}
+
+	if err = c.Bind(&filter); err != nil {
+		return
+	}
+
+	result, err := ref.bikeService.List(filter)
 	if err != nil {
 		return
 	}

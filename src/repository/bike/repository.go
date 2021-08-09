@@ -5,6 +5,9 @@ import (
 
 	"github.com/google/uuid"
 	"gorm.io/gorm"
+
+	"github.com/rickcorilaco/api-bike-v3/src/core/entity"
+	"github.com/rickcorilaco/api-bike-v3/src/core/values"
 )
 
 var (
@@ -12,10 +15,10 @@ var (
 )
 
 type Repository interface {
-	List() (result Bikes, err error)
-	Get(bikeID uuid.UUID) (result *Bike, err error)
-	Create(bike Bike) (result Bike, err error)
-	Delete(bike Bike) (err error)
+	List(filter values.BikeListFilter) (result []entity.Bike, err error)
+	Get(bikeID uuid.UUID) (result *entity.Bike, err error)
+	Create(bike entity.Bike) (result *entity.Bike, err error)
+	Delete(bike entity.Bike) (err error)
 }
 
 func New(db interface{}) (gormRepository Repository, err error) {
