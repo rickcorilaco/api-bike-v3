@@ -63,7 +63,7 @@ func (ref *GormRepository) Create(bike entity.Bike) (result *entity.Bike, err er
 }
 
 func (ref *GormRepository) Delete(bike entity.Bike) (err error) {
-	var model *Bike
+	var model = Bike{}
 	model.FromDomain(&bike)
 
 	err = ref.db.Delete(&model).Error

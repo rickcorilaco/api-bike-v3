@@ -54,8 +54,6 @@ func (ref *Bikes) FromDomain(dom []entity.Bike) {
 		bike.FromDomain(&domBike)
 		*ref = append(*ref, bike)
 	}
-
-	return
 }
 
 func (ref *Bikes) ToDomain() (dom []entity.Bike) {

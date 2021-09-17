@@ -6,7 +6,6 @@ import (
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 
-	"github.com/rickcorilaco/api-bike-v3/src/core/entity"
 	bikeRepository "github.com/rickcorilaco/api-bike-v3/src/repository/bike"
 	rideRepository "github.com/rickcorilaco/api-bike-v3/src/repository/ride"
 )
@@ -48,7 +47,7 @@ func getDB(config Config) (db interface{}, err error) {
 		return
 	}
 
-	err = gormDB.AutoMigrate(&entity.Bike{}, &entity.Ride{})
+	err = gormDB.AutoMigrate(&bikeRepository.Bike{}, &rideRepository.Ride{})
 	if err != nil {
 		return
 	}

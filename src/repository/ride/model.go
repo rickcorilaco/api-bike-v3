@@ -8,13 +8,17 @@ import (
 )
 
 type Ride struct {
-	ID       uuid.UUID
-	Distance float64
-	Duration time.Duration
-	Date     time.Time
+	ID       uuid.UUID     `gorm:"id"`
+	Distance float64       `gorm:"distance"`
+	Duration time.Duration `gorm:"duration"`
+	Date     time.Time     `gorm:"date"`
 }
 
-func (ref *Ride) FromDomain(dom entity.Ride) {
+func (ref *Ride) FromDomain(dom *entity.Ride) {
+	if dom == nil {
+		return
+	}
+
 	ref.ID = dom.ID
 	ref.Distance = dom.Distance
 	ref.Duration = dom.Duration
@@ -41,11 +45,9 @@ type Rides []Ride
 func (ref *Rides) FromDomain(dom []entity.Ride) {
 	for _, domRide := range dom {
 		ride := Ride{}
-		ride.FromDomain(domRide)
+		ride.FromDomain(&domRide)
 		*ref = append(*ref, ride)
 	}
-
-	return
 }
 
 func (ref *Rides) ToDomain() (dom []entity.Ride) {
