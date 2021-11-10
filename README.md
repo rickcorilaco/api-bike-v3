@@ -24,3 +24,9 @@ $ sh compose.sh
 
 # The server will start on port 9000.
 ```
+
+### Running unit and integration tests
+```
+# Note: whereas you have already cloned the repository and are in the root folder using the terminal.
+$ sh run_tests.sh
+```

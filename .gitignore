@@ -1,0 +1,5 @@
+.DS_Store
+.idea/
+.vscode/
+src/main
+tests/integration/target
