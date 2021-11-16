@@ -4,7 +4,7 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	"github.com/rickcorilaco/api-bike-v3/src/core/entity"
+	"github.com/rickcorilaco/api-bike-v3/src/core/domain"
 )
 
 type Ride struct {
@@ -14,15 +14,15 @@ type Ride struct {
 	Date     time.Time `json:"date" validate:"required"`
 }
 
-func (ref *Ride) FromDomain(dom entity.Ride) {
+func (ref *Ride) FromDomain(dom domain.Ride) {
 	ref.ID = dom.ID
 	ref.Distance = dom.Distance
 	ref.Duration = dom.Duration.String()
 	ref.Date = dom.Date
 }
 
-func (ref *Ride) ToDomain() (dom entity.Ride, err error) {
-	dom = entity.Ride{
+func (ref *Ride) ToDomain() (dom domain.Ride, err error) {
+	dom = domain.Ride{
 		ID:       ref.ID,
 		Distance: ref.Distance,
 		Date:     ref.Date,
@@ -40,8 +40,8 @@ func (ref *Ride) ToDomain() (dom entity.Ride, err error) {
 
 type Rides []Ride
 
-func (ref *Rides) FromDomain(dom []entity.Ride) {
-	for _, domRide := range dom {
+func (ref *Rides) FromDomain(dom *domain.Rides) {
+	for _, domRide := range *dom {
 		ride := Ride{}
 		ride.FromDomain(domRide)
 		*ref = append(*ref, ride)
@@ -50,11 +50,11 @@ func (ref *Rides) FromDomain(dom []entity.Ride) {
 	return
 }
 
-func (ref *Rides) ToDomain() (dom []entity.Ride, err error) {
-	dom = []entity.Ride{}
+func (ref *Rides) ToDomain() (dom []domain.Ride, err error) {
+	dom = []domain.Ride{}
 
 	for _, refRide := range *ref {
-		var ride entity.Ride
+		var ride domain.Ride
 
 		ride, err = refRide.ToDomain()
 		if err != nil {

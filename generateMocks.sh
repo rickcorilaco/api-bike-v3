@@ -1,1 +1,1 @@
-mockery -dir src/repository/bike -all -output src/repository/bike/mocks
+mockery --dir ./src/core/ports --all --output ./src/core/ports/mocks

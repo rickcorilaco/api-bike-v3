@@ -4,15 +4,20 @@ import (
 	"github.com/google/uuid"
 	"gorm.io/gorm"
 
-	"github.com/rickcorilaco/api-bike-v3/src/core/entity"
-	"github.com/rickcorilaco/api-bike-v3/src/core/values"
+	"github.com/rickcorilaco/api-bike-v3/src/core/domain"
+	"github.com/rickcorilaco/api-bike-v3/src/core/value"
 )
 
-type GormRepository struct {
+type GormBikeRepository struct {
 	db *gorm.DB
 }
 
-func (ref *GormRepository) List(filter values.BikeListFilter) (result []entity.Bike, err error) {
+func NewGormBikeRepository(db *gorm.DB) (gormBikeRepository *GormBikeRepository, err error) {
+	gormBikeRepository = &GormBikeRepository{db: db}
+	return
+}
+
+func (ref *GormBikeRepository) List(filter value.BikeListFilter) (result *domain.Bikes, err error) {
 	bike := Bike{}
 	bike.FromListFilter(filter)
 
@@ -27,7 +32,7 @@ func (ref *GormRepository) List(filter values.BikeListFilter) (result []entity.B
 	return
 }
 
-func (ref *GormRepository) Get(bikeID uuid.UUID) (result *entity.Bike, err error) {
+func (ref *GormBikeRepository) Get(bikeID uuid.UUID) (result *domain.Bike, err error) {
 	model := &Bike{}
 	tx := ref.db.First(&model, bikeID)
 
@@ -45,7 +50,7 @@ func (ref *GormRepository) Get(bikeID uuid.UUID) (result *entity.Bike, err error
 	return
 }
 
-func (ref *GormRepository) Create(bike entity.Bike) (result *entity.Bike, err error) {
+func (ref *GormBikeRepository) Create(bike domain.Bike) (result *domain.Bike, err error) {
 	if bike.ID == uuid.Nil {
 		bike.ID = uuid.New()
 	}
@@ -62,7 +67,7 @@ func (ref *GormRepository) Create(bike entity.Bike) (result *entity.Bike, err er
 	return
 }
 
-func (ref *GormRepository) Delete(bike entity.Bike) (err error) {
+func (ref *GormBikeRepository) Delete(bike domain.Bike) (err error) {
 	var model = Bike{}
 	model.FromDomain(&bike)
 

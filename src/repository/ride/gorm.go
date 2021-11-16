@@ -6,15 +6,20 @@ import (
 	"github.com/google/uuid"
 	"gorm.io/gorm"
 
-	"github.com/rickcorilaco/api-bike-v3/src/core/entity"
-	"github.com/rickcorilaco/api-bike-v3/src/core/values"
+	"github.com/rickcorilaco/api-bike-v3/src/core/domain"
+	"github.com/rickcorilaco/api-bike-v3/src/core/value"
 )
 
-type GormRepository struct {
+type GormRideRepository struct {
 	db *gorm.DB
 }
 
-func (ref *GormRepository) List(filter values.RideListFilter) (result []entity.Ride, err error) {
+func NewGormRideRepository(db *gorm.DB) (gormRideRepository *GormRideRepository, err error) {
+	gormRideRepository = &GormRideRepository{db: db}
+	return
+}
+
+func (ref *GormRideRepository) List(filter value.RideListFilter) (result *domain.Rides, err error) {
 	query, args := ref.generateQueryAndArgsFromFilter(filter)
 	model := Rides{}
 
@@ -27,7 +32,7 @@ func (ref *GormRepository) List(filter values.RideListFilter) (result []entity.R
 	return
 }
 
-func (ref *GormRepository) Get(rideID uuid.UUID) (result *entity.Ride, err error) {
+func (ref *GormRideRepository) Get(rideID uuid.UUID) (result *domain.Ride, err error) {
 	model := &Ride{}
 	tx := ref.db.First(&model, rideID)
 
@@ -45,7 +50,7 @@ func (ref *GormRepository) Get(rideID uuid.UUID) (result *entity.Ride, err error
 	return
 }
 
-func (ref *GormRepository) Create(ride entity.Ride) (result *entity.Ride, err error) {
+func (ref *GormRideRepository) Create(ride domain.Ride) (result *domain.Ride, err error) {
 	if ride.ID == uuid.Nil {
 		ride.ID = uuid.New()
 	}
@@ -62,7 +67,7 @@ func (ref *GormRepository) Create(ride entity.Ride) (result *entity.Ride, err er
 	return
 }
 
-func (ref *GormRepository) Delete(ride entity.Ride) (err error) {
+func (ref *GormRideRepository) Delete(ride domain.Ride) (err error) {
 	var model = Ride{}
 	model.FromDomain(&ride)
 
@@ -70,7 +75,7 @@ func (ref *GormRepository) Delete(ride entity.Ride) (err error) {
 	return
 }
 
-func (ref *GormRepository) generateQueryAndArgsFromFilter(filter values.RideListFilter) (query string, args []interface{}) {
+func (ref *GormRideRepository) generateQueryAndArgsFromFilter(filter value.RideListFilter) (query string, args []interface{}) {
 	parts := []string{}
 	args = []interface{}{}
 

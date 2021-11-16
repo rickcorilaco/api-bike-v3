@@ -5,17 +5,18 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/labstack/echo"
-	rideService "github.com/rickcorilaco/api-bike-v3/src/core/service/ride"
-	"github.com/rickcorilaco/api-bike-v3/src/core/values"
+
+	"github.com/rickcorilaco/api-bike-v3/src/core/ports"
+	"github.com/rickcorilaco/api-bike-v3/src/core/value"
 )
 
-type RideAPI struct {
+type API struct {
 	e           *echo.Echo
-	rideService *rideService.RideService
+	rideService ports.RideService
 }
 
-func NewAPI(e *echo.Echo, rideService *rideService.RideService) (ridePresentation *RideAPI, err error) {
-	ridePresentation = &RideAPI{
+func NewAPI(e *echo.Echo, rideService ports.RideService) (ridePresentation *API, err error) {
+	ridePresentation = &API{
 		e:           e,
 		rideService: rideService,
 	}
@@ -29,8 +30,8 @@ func NewAPI(e *echo.Echo, rideService *rideService.RideService) (ridePresentatio
 	return
 }
 
-func (ref *RideAPI) List(c echo.Context) (err error) {
-	filter := values.RideListFilter{}
+func (ref *API) List(c echo.Context) (err error) {
+	filter := value.RideListFilter{}
 
 	if err = c.Bind(&filter); err != nil {
 		return
@@ -46,7 +47,7 @@ func (ref *RideAPI) List(c echo.Context) (err error) {
 	return c.JSON(http.StatusOK, response)
 }
 
-func (ref *RideAPI) Get(c echo.Context) (err error) {
+func (ref *API) Get(c echo.Context) (err error) {
 	rideID, err := uuid.Parse(c.Param("ride_id"))
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, echo.Map{"error": err.Error()})
@@ -66,7 +67,7 @@ func (ref *RideAPI) Get(c echo.Context) (err error) {
 	return c.JSON(http.StatusOK, response)
 }
 
-func (ref *RideAPI) Create(c echo.Context) (err error) {
+func (ref *API) Create(c echo.Context) (err error) {
 	payload := Ride{}
 
 	if err = c.Bind(&payload); err != nil {
@@ -92,7 +93,7 @@ func (ref *RideAPI) Create(c echo.Context) (err error) {
 	return c.JSON(http.StatusCreated, payload)
 }
 
-func (ref *RideAPI) Delete(c echo.Context) (err error) {
+func (ref *API) Delete(c echo.Context) (err error) {
 	rideID, err := uuid.Parse(c.Param("ride_id"))
 	if err != nil {
 		return

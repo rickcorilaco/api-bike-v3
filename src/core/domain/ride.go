@@ -1,10 +1,12 @@
-package entity
+package domain
 
 import (
 	"time"
 
 	uuid "github.com/google/uuid"
 )
+
+type Rides []Ride
 
 type Ride struct {
 	ID       uuid.UUID

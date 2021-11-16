@@ -1,21 +1,21 @@
 package bike
 
 import (
+	"github.com/rickcorilaco/api-bike-v3/src/core/ports"
 	"net/http"
 
 	"github.com/google/uuid"
 	"github.com/labstack/echo"
-	bikeService "github.com/rickcorilaco/api-bike-v3/src/core/service/bike"
-	"github.com/rickcorilaco/api-bike-v3/src/core/values"
+	"github.com/rickcorilaco/api-bike-v3/src/core/value"
 )
 
-type BikeAPI struct {
+type API struct {
 	e           *echo.Echo
-	bikeService *bikeService.BikeService
+	bikeService ports.BikeService
 }
 
-func NewAPI(e *echo.Echo, bikeService *bikeService.BikeService) (bikePresentation *BikeAPI, err error) {
-	bikePresentation = &BikeAPI{
+func NewAPI(e *echo.Echo, bikeService ports.BikeService) (bikePresentation *API, err error) {
+	bikePresentation = &API{
 		e:           e,
 		bikeService: bikeService,
 	}
@@ -29,8 +29,8 @@ func NewAPI(e *echo.Echo, bikeService *bikeService.BikeService) (bikePresentatio
 	return
 }
 
-func (ref *BikeAPI) List(c echo.Context) (err error) {
-	filter := values.BikeListFilter{}
+func (ref *API) List(c echo.Context) (err error) {
+	filter := value.BikeListFilter{}
 
 	if err = c.Bind(&filter); err != nil {
 		return
@@ -46,7 +46,7 @@ func (ref *BikeAPI) List(c echo.Context) (err error) {
 	return c.JSON(http.StatusOK, response)
 }
 
-func (ref *BikeAPI) Get(c echo.Context) (err error) {
+func (ref *API) Get(c echo.Context) (err error) {
 	bikeID, err := uuid.Parse(c.Param("bike_id"))
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, echo.Map{"error": err.Error()})
@@ -66,7 +66,7 @@ func (ref *BikeAPI) Get(c echo.Context) (err error) {
 	return c.JSON(http.StatusOK, response)
 }
 
-func (ref *BikeAPI) Create(c echo.Context) (err error) {
+func (ref *API) Create(c echo.Context) (err error) {
 	payload := Bike{}
 
 	if err = c.Bind(&payload); err != nil {
@@ -87,7 +87,7 @@ func (ref *BikeAPI) Create(c echo.Context) (err error) {
 	return c.JSON(http.StatusCreated, payload)
 }
 
-func (ref *BikeAPI) Delete(c echo.Context) (err error) {
+func (ref *API) Delete(c echo.Context) (err error) {
 	bikeID, err := uuid.Parse(c.Param("bike_id"))
 	if err != nil {
 		return

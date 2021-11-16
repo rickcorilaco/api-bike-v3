@@ -2,8 +2,8 @@ package bike
 
 import (
 	"github.com/google/uuid"
-	"github.com/rickcorilaco/api-bike-v3/src/core/entity"
-	"github.com/rickcorilaco/api-bike-v3/src/core/values"
+	"github.com/rickcorilaco/api-bike-v3/src/core/domain"
+	"github.com/rickcorilaco/api-bike-v3/src/core/value"
 )
 
 type Bike struct {
@@ -12,7 +12,7 @@ type Bike struct {
 	Model string    `gorm:"model"`
 }
 
-func (ref *Bike) FromDomain(dom *entity.Bike) {
+func (ref *Bike) FromDomain(dom *domain.Bike) {
 	if dom == nil {
 		return
 	}
@@ -22,8 +22,8 @@ func (ref *Bike) FromDomain(dom *entity.Bike) {
 	ref.Model = dom.Model
 }
 
-func (ref *Bike) ToDomain() (dom *entity.Bike) {
-	dom = &entity.Bike{
+func (ref *Bike) ToDomain() (dom *domain.Bike) {
+	dom = &domain.Bike{
 		ID:    ref.ID,
 		Brand: ref.Brand,
 		Model: ref.Model,
@@ -32,7 +32,7 @@ func (ref *Bike) ToDomain() (dom *entity.Bike) {
 	return
 }
 
-func (ref *Bike) FromListFilter(filter values.BikeListFilter) {
+func (ref *Bike) FromListFilter(filter value.BikeListFilter) {
 	if filter.ID != nil {
 		ref.ID = *filter.ID
 	}
@@ -48,7 +48,7 @@ func (ref *Bike) FromListFilter(filter values.BikeListFilter) {
 
 type Bikes []Bike
 
-func (ref *Bikes) FromDomain(dom []entity.Bike) {
+func (ref *Bikes) FromDomain(dom []domain.Bike) {
 	for _, domBike := range dom {
 		bike := Bike{}
 		bike.FromDomain(&domBike)
@@ -56,11 +56,11 @@ func (ref *Bikes) FromDomain(dom []entity.Bike) {
 	}
 }
 
-func (ref *Bikes) ToDomain() (dom []entity.Bike) {
-	dom = []entity.Bike{}
+func (ref *Bikes) ToDomain() (dom *domain.Bikes) {
+	dom = &domain.Bikes{}
 
 	for _, refBike := range *ref {
-		dom = append(dom, *refBike.ToDomain())
+		*dom = append(*dom, *refBike.ToDomain())
 	}
 
 	return

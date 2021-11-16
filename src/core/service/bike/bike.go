@@ -2,32 +2,33 @@ package bike
 
 import (
 	"github.com/google/uuid"
-	"github.com/rickcorilaco/api-bike-v3/src/core/entity"
-	"github.com/rickcorilaco/api-bike-v3/src/core/values"
-	bikeRepository "github.com/rickcorilaco/api-bike-v3/src/repository/bike"
+	"github.com/rickcorilaco/api-bike-v3/src/core/ports"
+
+	"github.com/rickcorilaco/api-bike-v3/src/core/domain"
+	"github.com/rickcorilaco/api-bike-v3/src/core/value"
 )
 
-type BikeService struct {
-	repository bikeRepository.Repository
+type Service struct {
+	repository ports.BikeRepository
 }
 
-func New(repository bikeRepository.Repository) (bikeService *BikeService, err error) {
-	bikeService = &BikeService{repository: repository}
+func New(repository ports.BikeRepository) (bikeService ports.BikeService, err error) {
+	bikeService = &Service{repository: repository}
 	return
 }
 
-func (ref *BikeService) List(filter values.BikeListFilter) (result []entity.Bike, err error) {
+func (ref *Service) List(filter value.BikeListFilter) (result *domain.Bikes, err error) {
 	return ref.repository.List(filter)
 }
 
-func (ref *BikeService) Get(bikeID uuid.UUID) (result *entity.Bike, err error) {
+func (ref *Service) Get(bikeID uuid.UUID) (result *domain.Bike, err error) {
 	return ref.repository.Get(bikeID)
 }
 
-func (ref *BikeService) Create(bike entity.Bike) (result *entity.Bike, err error) {
+func (ref *Service) Create(bike domain.Bike) (result *domain.Bike, err error) {
 	return ref.repository.Create(bike)
 }
 
-func (ref *BikeService) Delete(bike entity.Bike) (err error) {
+func (ref *Service) Delete(bike domain.Bike) (err error) {
 	return ref.repository.Delete(bike)
 }

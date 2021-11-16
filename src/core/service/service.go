@@ -2,6 +2,7 @@ package service
 
 import (
 	"errors"
+	"github.com/rickcorilaco/api-bike-v3/src/core/ports"
 
 	bikeService "github.com/rickcorilaco/api-bike-v3/src/core/service/bike"
 	rideService "github.com/rickcorilaco/api-bike-v3/src/core/service/ride"
@@ -13,8 +14,8 @@ type Config struct {
 }
 
 type Services struct {
-	Bike *bikeService.BikeService
-	Ride *rideService.RideService
+	Bike ports.BikeService
+	Ride ports.RideService
 }
 
 func Start(config Config) (services Services, err error) {

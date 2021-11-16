@@ -2,6 +2,7 @@ package repository
 
 import (
 	"fmt"
+	"github.com/rickcorilaco/api-bike-v3/src/core/ports"
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -19,8 +20,8 @@ type Config struct {
 }
 
 type Repositories struct {
-	Bike bikeRepository.Repository
-	Ride rideRepository.Repository
+	Bike ports.BikeRepository
+	Ride ports.RideRepository
 }
 
 // Start initialize database connection and repositories

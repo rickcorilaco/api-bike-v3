@@ -2,6 +2,7 @@ package bike
 
 import (
 	"errors"
+	"github.com/rickcorilaco/api-bike-v3/src/core/ports"
 	"log"
 	"os"
 	"reflect"
@@ -9,35 +10,35 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/rickcorilaco/api-bike-v3/src/core/entity"
-	"github.com/rickcorilaco/api-bike-v3/src/core/values"
-	bikeRepositoryMocks "github.com/rickcorilaco/api-bike-v3/src/repository/bike/mocks"
+	"github.com/rickcorilaco/api-bike-v3/src/core/domain"
+	"github.com/rickcorilaco/api-bike-v3/src/core/ports/mocks"
+	"github.com/rickcorilaco/api-bike-v3/src/core/value"
 )
 
 var (
-	repository           *bikeRepositoryMocks.Repository
-	service              *BikeService
-	caloi10, absoluteMia *entity.Bike
+	repository           *mocks.BikeRepository
+	service              ports.BikeService
+	caloi10, absoluteMia *domain.Bike
 	errRepository        error
 )
 
 func TestMain(m *testing.M) {
 	var err error
 
-	repository = &bikeRepositoryMocks.Repository{}
+	repository = &mocks.BikeRepository{}
 
 	service, err = New(repository)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	caloi10 = &entity.Bike{
+	caloi10 = &domain.Bike{
 		ID:    uuid.New(),
 		Brand: "Caloi",
 		Model: "10",
 	}
 
-	absoluteMia = &entity.Bike{
+	absoluteMia = &domain.Bike{
 		ID:    uuid.New(),
 		Brand: "Absolute",
 		Model: "Mia",
@@ -49,9 +50,9 @@ func TestMain(m *testing.M) {
 }
 
 func TestList_should_get_a_bike_list_with_success(t *testing.T) {
-	filter := values.BikeListFilter{}
+	filter := value.BikeListFilter{}
 
-	expected := []entity.Bike{
+	expected := &domain.Bikes{
 		*caloi10,
 		*absoluteMia,
 	}
@@ -71,11 +72,11 @@ func TestList_should_get_a_bike_list_with_success(t *testing.T) {
 
 func TestList_should_not_get_a_bike_list_when_the_repository_fails(t *testing.T) {
 	var (
-		expected    []entity.Bike
+		expected    *domain.Bikes
 		errExpected = errRepository
 	)
 
-	filter := values.BikeListFilter{
+	filter := value.BikeListFilter{
 		Brand: &caloi10.Brand,
 	}
 
@@ -110,7 +111,7 @@ func TestGet_should_get_a_bike_with_success(t *testing.T) {
 func TestGet_should_not_get_a_bike_when_the_repository_fails(t *testing.T) {
 	var (
 		bikeID      = uuid.New()
-		expected    *entity.Bike
+		expected    *domain.Bike
 		errExpected = errors.New("repository error")
 	)
 
@@ -146,7 +147,7 @@ func TestCreate_should_create_a_bike_with_success(t *testing.T) {
 func TestCreate_should_not_create_a_bike_when_the_repository_fails(t *testing.T) {
 	bike := caloi10
 
-	var expected *entity.Bike
+	var expected *domain.Bike
 
 	errExpected := errors.New("repository error")
 
