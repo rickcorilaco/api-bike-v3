@@ -1,11 +1,12 @@
 package bike
 
 import (
-	"github.com/rickcorilaco/api-bike-v3/src/core/ports"
 	"net/http"
 
 	"github.com/google/uuid"
+
 	"github.com/labstack/echo"
+	"github.com/rickcorilaco/api-bike-v3/src/core/ports"
 	"github.com/rickcorilaco/api-bike-v3/src/core/value"
 )
 
@@ -95,10 +96,14 @@ func (ref *API) Delete(c echo.Context) (err error) {
 
 	bike := Bike{ID: bikeID}
 
-	err = ref.bikeService.Delete(bike.ToDomain())
+	result, err := ref.bikeService.Delete(bike.ToDomain())
 	if err != nil {
 		return
 	}
 
-	return c.NoContent(http.StatusOK)
+	if result == nil {
+		return c.NoContent(http.StatusNotFound)
+	}
+
+	return c.NoContent(http.StatusNoContent)
 }

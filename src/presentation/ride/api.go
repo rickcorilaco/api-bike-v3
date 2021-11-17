@@ -106,10 +106,14 @@ func (ref *API) Delete(c echo.Context) (err error) {
 		return
 	}
 
-	err = ref.rideService.Delete(dom)
+	result, err := ref.rideService.Delete(dom)
 	if err != nil {
 		return
 	}
 
-	return c.NoContent(http.StatusOK)
+	if result == nil {
+		return c.NoContent(http.StatusNotFound)
+	}
+
+	return c.NoContent(http.StatusNoContent)
 }

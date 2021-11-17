@@ -2,7 +2,6 @@ package bike
 
 import (
 	"errors"
-	"github.com/rickcorilaco/api-bike-v3/src/core/ports"
 	"log"
 	"os"
 	"reflect"
@@ -11,6 +10,7 @@ import (
 	"github.com/google/uuid"
 
 	"github.com/rickcorilaco/api-bike-v3/src/core/domain"
+	"github.com/rickcorilaco/api-bike-v3/src/core/ports"
 	"github.com/rickcorilaco/api-bike-v3/src/core/ports/mocks"
 	"github.com/rickcorilaco/api-bike-v3/src/core/value"
 )
@@ -167,9 +167,10 @@ func TestCreate_should_not_create_a_bike_when_the_repository_fails(t *testing.T)
 func TestDelete_should_delete_a_bike_with_success(t *testing.T) {
 	expected := caloi10
 
+	repository.On("Get", expected.ID).Return(expected, nil)
 	repository.On("Delete", *expected).Return(nil)
 
-	err := service.Delete(*expected)
+	_, err := service.Delete(*expected)
 
 	if err != nil {
 		t.Errorf("\nError should be nil, received: %v", err)
@@ -182,9 +183,10 @@ func TestDelete_should_not_delete_a_bike_when_the_repository_fails(t *testing.T)
 		errExpected = errRepository
 	)
 
+	repository.On("Get", bike.ID).Return(bike, nil)
 	repository.On("Delete", *bike).Return(errExpected)
 
-	err := service.Delete(*bike)
+	_, err := service.Delete(*bike)
 
 	if errExpected != err {
 		t.Errorf("\nExpected: %v \nGot: %v\n", errExpected, err)

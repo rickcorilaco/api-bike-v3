@@ -29,6 +29,16 @@ func (ref *Service) Create(bike domain.Bike) (result *domain.Bike, err error) {
 	return ref.repository.Create(bike)
 }
 
-func (ref *Service) Delete(bike domain.Bike) (err error) {
-	return ref.repository.Delete(bike)
+func (ref *Service) Delete(bike domain.Bike) (result *domain.Bike, err error) {
+	result, err = ref.Get(bike.ID)
+	if err != nil {
+		return
+	}
+
+	if result == nil {
+		return
+	}
+
+	err = ref.repository.Delete(bike)
+	return
 }

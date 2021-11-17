@@ -38,7 +38,7 @@ func (ref *GormBikeRepository) Get(bikeID uuid.UUID) (result *domain.Bike, err e
 
 	if tx.Error != nil {
 		if tx.Error == gorm.ErrRecordNotFound {
-			err = ErrBikeNotFound
+			// err = ErrBikeNotFound
 			return
 		}
 
