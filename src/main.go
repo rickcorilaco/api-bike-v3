@@ -18,6 +18,8 @@ var (
 	dbUser     = os.Getenv("DATABASE_USER")
 	dbPassword = os.Getenv("DATABASE_PASSWORD")
 	dbName     = os.Getenv("DATABASE_NAME")
+
+	userTokenKey = os.Getenv("USER_TOKEN_KEY")
 )
 
 func main() {
@@ -38,6 +40,7 @@ func main() {
 	// service
 	serviceConfig := service.Config{
 		Repositories: repositories,
+		UserTokenKey: userTokenKey,
 	}
 
 	services, err := service.Start(serviceConfig)

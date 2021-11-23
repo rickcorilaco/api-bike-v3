@@ -8,6 +8,7 @@ import (
 	"github.com/rickcorilaco/api-bike-v3/src/core/service"
 	bikePresentation "github.com/rickcorilaco/api-bike-v3/src/presentation/bike"
 	ridePresentation "github.com/rickcorilaco/api-bike-v3/src/presentation/ride"
+	userPresentation "github.com/rickcorilaco/api-bike-v3/src/presentation/user"
 )
 
 type Config struct {
@@ -43,6 +44,14 @@ func Start(config Config) (err error) {
 		}
 
 		e.Logger.Print("Ride API started!")
+	}
+
+	if config.Services.User != nil {
+		if _, err = userPresentation.NewAPI(e, config.Services.User); err != nil {
+			return
+		}
+
+		e.Logger.Print("User API started!")
 	}
 
 	go func() {

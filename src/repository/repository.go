@@ -9,6 +9,7 @@ import (
 
 	bikeRepository "github.com/rickcorilaco/api-bike-v3/src/repository/bike"
 	rideRepository "github.com/rickcorilaco/api-bike-v3/src/repository/ride"
+	userRepository "github.com/rickcorilaco/api-bike-v3/src/repository/user"
 )
 
 type Config struct {
@@ -22,6 +23,7 @@ type Config struct {
 type Repositories struct {
 	Bike ports.BikeRepository
 	Ride ports.RideRepository
+	User ports.UserRepository
 }
 
 // Start initialize database connection and repositories
@@ -37,6 +39,11 @@ func Start(config Config) (repositories Repositories, err error) {
 	}
 
 	repositories.Ride, err = rideRepository.New(db)
+	if err != nil {
+		return
+	}
+
+	repositories.User, err = userRepository.New(db)
 	return
 }
 
@@ -48,7 +55,7 @@ func getDB(config Config) (db interface{}, err error) {
 		return
 	}
 
-	err = gormDB.AutoMigrate(&bikeRepository.Bike{}, &rideRepository.Ride{})
+	err = gormDB.AutoMigrate(&bikeRepository.Bike{}, &rideRepository.Ride{}, &userRepository.User{})
 	if err != nil {
 		return
 	}

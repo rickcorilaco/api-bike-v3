@@ -20,3 +20,10 @@ type RideService interface{
 	Create(ride domain.Ride) (result *domain.Ride, err error)
 	Delete(ride domain.Ride) (result *domain.Ride, err error)
 }
+
+type UserService interface {
+	Create(user domain.User) (result *domain.User, err error)
+	Login(username string, password string) (token string, err error)
+	ErrInvalidUsernameOrPassword() (err error)
+	ErrDuplicateRecord() (err error)
+}

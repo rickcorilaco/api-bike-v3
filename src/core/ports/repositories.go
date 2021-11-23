@@ -20,3 +20,9 @@ type RideRepository interface {
 	Create(ride domain.Ride) (result *domain.Ride, err error)
 	Delete(ride domain.Ride) (err error)
 }
+
+type UserRepository interface {
+	GetByUsername(username string) (result *domain.User, err error)
+	Create(user domain.User) (result *domain.User, err error)
+	ErrDuplicateRecord() (err error)
+}
