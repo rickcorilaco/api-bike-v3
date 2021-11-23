@@ -1,6 +1,8 @@
 package bike
 
 import (
+	"errors"
+
 	"github.com/google/uuid"
 	"gorm.io/gorm"
 
@@ -34,15 +36,13 @@ func (ref *GormBikeRepository) List(filter value.BikeListFilter) (result *domain
 
 func (ref *GormBikeRepository) Get(bikeID uuid.UUID) (result *domain.Bike, err error) {
 	model := &Bike{}
-	tx := ref.db.First(&model, bikeID)
 
-	if tx.Error != nil {
-		if tx.Error == gorm.ErrRecordNotFound {
-			// err = ErrBikeNotFound
-			return
+	err = ref.db.First(&model, bikeID).Error
+	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			err = nil
 		}
 
-		err = tx.Error
 		return
 	}
 

@@ -2,9 +2,10 @@ package bike
 
 import (
 	"errors"
-	"github.com/rickcorilaco/api-bike-v3/src/core/ports"
 
 	"gorm.io/gorm"
+
+	"github.com/rickcorilaco/api-bike-v3/src/core/ports"
 )
 
 var (

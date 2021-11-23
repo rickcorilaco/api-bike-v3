@@ -2,11 +2,11 @@ package repository
 
 import (
 	"fmt"
-	"github.com/rickcorilaco/api-bike-v3/src/core/ports"
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 
+	"github.com/rickcorilaco/api-bike-v3/src/core/ports"
 	bikeRepository "github.com/rickcorilaco/api-bike-v3/src/repository/bike"
 	rideRepository "github.com/rickcorilaco/api-bike-v3/src/repository/ride"
 	userRepository "github.com/rickcorilaco/api-bike-v3/src/repository/user"

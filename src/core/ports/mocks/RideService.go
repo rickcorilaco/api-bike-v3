@@ -40,17 +40,26 @@ func (_m *RideService) Create(ride domain.Ride) (*domain.Ride, error) {
 }
 
 // Delete provides a mock function with given fields: ride
-func (_m *RideService) Delete(ride domain.Ride) error {
+func (_m *RideService) Delete(ride domain.Ride) (*domain.Ride, error) {
 	ret := _m.Called(ride)
 
-	var r0 error
-	if rf, ok := ret.Get(0).(func(domain.Ride) error); ok {
+	var r0 *domain.Ride
+	if rf, ok := ret.Get(0).(func(domain.Ride) *domain.Ride); ok {
 		r0 = rf(ride)
 	} else {
-		r0 = ret.Error(0)
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*domain.Ride)
+		}
 	}
 
-	return r0
+	var r1 error
+	if rf, ok := ret.Get(1).(func(domain.Ride) error); ok {
+		r1 = rf(ride)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
 }
 
 // Get provides a mock function with given fields: rideID

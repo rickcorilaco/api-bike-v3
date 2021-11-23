@@ -2,6 +2,7 @@ package bike
 
 import (
 	"github.com/google/uuid"
+
 	"github.com/rickcorilaco/api-bike-v3/src/core/domain"
 	"github.com/rickcorilaco/api-bike-v3/src/core/value"
 )

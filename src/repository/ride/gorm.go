@@ -1,6 +1,7 @@
 package ride
 
 import (
+	"errors"
 	"strings"
 
 	"github.com/google/uuid"
@@ -34,15 +35,14 @@ func (ref *GormRideRepository) List(filter value.RideListFilter) (result *domain
 
 func (ref *GormRideRepository) Get(rideID uuid.UUID) (result *domain.Ride, err error) {
 	model := &Ride{}
-	tx := ref.db.First(&model, rideID)
 
-	if tx.Error != nil {
-		if tx.Error == gorm.ErrRecordNotFound {
-			err = ErrRideNotFound
+	err = ref.db.First(&model, rideID).Error
+	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			err = nil
 			return
 		}
 
-		err = tx.Error
 		return
 	}
 
